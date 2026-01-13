@@ -1,20 +1,19 @@
 #!/bin/bash
-
 set -e
 
 echo "===================================="
 echo "Building Habit Tracker APK"
 echo "===================================="
 
-# Clean previous builds
+# Source proxy config if available (for Claude Code remote environment)
+[ -f ~/.gradle/proxy-env.sh ] && source ~/.gradle/proxy-env.sh
+
 echo "Cleaning previous builds..."
 ./gradlew clean
 
-# Build debug APK
 echo "Building debug APK..."
 ./gradlew assembleDebug
 
-# Build release APK
 echo "Building release APK..."
 ./gradlew assembleRelease
 
