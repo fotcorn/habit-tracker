@@ -1,41 +1,21 @@
 #!/bin/bash
-
 set -e
 
 echo "===================================="
 echo "Building Habit Tracker APK"
 echo "===================================="
 
-# Source Gradle proxy configuration if available (for Claude Code remote environment)
-if [ -f ~/.gradle/proxy-env.sh ]; then
-  echo "Loading Gradle proxy configuration..."
-  source ~/.gradle/proxy-env.sh
-fi
+# Source proxy config if available (for Claude Code remote environment)
+[ -f ~/.gradle/proxy-env.sh ] && source ~/.gradle/proxy-env.sh
 
-# Determine which gradle command to use
-# Prefer system Gradle if wrapper fails (e.g., due to download restrictions in remote environments)
-GRADLE_CMD="./gradlew"
-if [ -n "${USE_SYSTEM_GRADLE:-}" ] || [ -x /opt/gradle/bin/gradle ]; then
-  # Check if wrapper can download Gradle distribution
-  if ! ./gradlew --version >/dev/null 2>&1; then
-    if [ -x /opt/gradle/bin/gradle ]; then
-      echo "Gradle wrapper unavailable, using system Gradle..."
-      GRADLE_CMD="/opt/gradle/bin/gradle"
-    fi
-  fi
-fi
-
-# Clean previous builds
 echo "Cleaning previous builds..."
-$GRADLE_CMD clean
+./gradlew clean
 
-# Build debug APK
 echo "Building debug APK..."
-$GRADLE_CMD assembleDebug
+./gradlew assembleDebug
 
-# Build release APK
 echo "Building release APK..."
-$GRADLE_CMD assembleRelease
+./gradlew assembleRelease
 
 echo "===================================="
 echo "Build completed successfully!"
