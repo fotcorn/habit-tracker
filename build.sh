@@ -8,9 +8,6 @@ echo "===================================="
 # Source proxy config if available (for Claude Code remote environment)
 [ -f ~/.gradle/proxy-env.sh ] && source ~/.gradle/proxy-env.sh
 
-echo "Cleaning previous builds..."
-./gradlew clean
-
 echo "Building debug APK..."
 ./gradlew assembleDebug
 
